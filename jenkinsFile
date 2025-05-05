@@ -1,0 +1,94 @@
+pipeline {
+    agent any
+    tools {
+        maven "maven"
+    }
+    stages {
+        stage("Checkout") {
+            steps {
+                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/siposisp/pep1devsecops']])
+            }
+        }
+        stage("Build JAR File") {
+            steps {
+                dir("pep1devsecops") {
+                    sh "mvn clean install"
+                }
+            }
+        }
+        stage("Test Backend") {
+            steps {
+                dir("pep1devsecops") {
+                    sh "mvn test"
+                }
+            }
+        }
+        stage("Build Docker Image backend") {
+            steps {
+                dir("pep1devsecops") {
+                    sh "docker build -t niko085/pep1devsecops_backend ."
+                }
+            }
+        }
+        stage("Push Docker Image backend") {
+            steps {
+                dir("pep1devsecops") {
+                    withCredentials([string(credentialsId: 'dckrhubpassword', variable: 'dckpass')]) {
+                        sh "docker login -u niko085 -p ${dckpass}"
+                        sh "docker push niko085/pep1devsecops_backend"
+                    }
+                }
+            }
+        }
+
+        stage("Build Frontend"){
+            steps {
+                dir("front-devsecops") {
+                    sh "npm install"
+                    sh "npm run build"
+                }
+            }
+        }
+
+        stage("Build Docker Image frontend") {
+            steps {
+                dir("front-devsecops") {
+                    sh "docker build -t niko085/front-devsecops ."
+                }
+            }
+        }
+
+        stage("Push Docker Image frontend") {
+            steps {
+                dir("front-devsecops") {
+                    withCredentials([string(credentialsId: 'dckrhubpassword', variable: 'dckpass')]) {
+                        sh "docker login -u niko085 -p ${dckpass}"
+                        sh "docker push niko085/front-devsecops"
+                    }
+                }
+            }
+        }
+
+        stage("Deploy Backend with Docker Compose") {
+            steps {
+                dir("pep1devsecops") {
+                    sh "docker-compose down || exit 0"
+                    sh "docker-compose up -d --build"
+                }
+            }
+        }
+        stage("Deploy Frontend with Docker Compose") {
+            steps {
+                dir("front-devsecops") {
+                    sh "docker-compose down || exit 0"
+                    sh "docker-compose up -d --build"
+                }
+            }
+        }
+    }
+    post {
+        always {
+            sh "docker logout"
+        }
+    }
+}
