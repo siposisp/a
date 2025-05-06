@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage("Checkout") {
             steps {
-                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/siposisp/pep1devsecops']])
+                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/siposisp/a']])
             }
         }
         stage("Build JAR File") {
@@ -40,46 +40,9 @@ pipeline {
                 }
             }
         }
-
-        stage("Build Frontend"){
-            steps {
-                dir("front-devsecops") {
-                    sh "npm install"
-                    sh "npm run build"
-                }
-            }
-        }
-
-        stage("Build Docker Image frontend") {
-            steps {
-                dir("front-devsecops") {
-                    sh "docker build -t niko085/front-devsecops ."
-                }
-            }
-        }
-
-        stage("Push Docker Image frontend") {
-            steps {
-                dir("front-devsecops") {
-                    withCredentials([string(credentialsId: 'dckrhubpassword', variable: 'dckpass')]) {
-                        sh "docker login -u niko085 -p ${dckpass}"
-                        sh "docker push niko085/front-devsecops"
-                    }
-                }
-            }
-        }
-
         stage("Deploy Backend with Docker Compose") {
             steps {
                 dir("pep1devsecops") {
-                    sh "docker-compose down || exit 0"
-                    sh "docker-compose up -d --build"
-                }
-            }
-        }
-        stage("Deploy Frontend with Docker Compose") {
-            steps {
-                dir("front-devsecops") {
                     sh "docker-compose down || exit 0"
                     sh "docker-compose up -d --build"
                 }
