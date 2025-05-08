@@ -34,13 +34,12 @@ pipeline {
             steps {
                 dir("pep1devsecops") {
                     withCredentials([string(credentialsId: 'dckrhubpassword', variable: 'dckpass')]) {
-                        bat 'echo %dckpass% | docker login -u niko085 --password-stdin'
+                        bat 'docker login -u niko085 -p ${dckpass}'
                         bat 'docker push niko085/pep1devsecops_backend'
                     }
                 }
             }
         }
-
 
         stage("Deploy Backend with Docker Compose") {
             steps {
