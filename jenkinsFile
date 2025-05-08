@@ -33,8 +33,10 @@ pipeline {
         stage("Push Docker Image backend") {
             steps {
                 dir("pep1devsecops") {
-                    bat 'docker login -u niko085 -p Nicolas2519'
-                    bat 'docker push niko085/pep1devsecops_backend'
+                    withCredentials([string(credentialsId: 'dckrhubpassword', variable: 'dckpass')]) {
+                        bat 'docker login -u niko085 -p ${dckpass}'
+                        bat 'docker push niko085/pep1devsecops_backend'
+                    }
                 }
             }
         }
