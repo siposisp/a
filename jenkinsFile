@@ -3,19 +3,31 @@ pipeline {
     tools {
         maven "maven"
     }
+
+    environment {
+        // Se recomienda usar credenciales seguras en Jenkins
+        DOCKER_USER = 'niko085'
+        DOCKER_PASS = 'Nicolas2519' // REEMPLAZAR por uso de withCredentials
+    }
+
     stages {
         stage("Checkout") {
             steps {
-                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/siposisp/a']])
+                checkout scmGit(
+                    branches: [[name: '*/main']],
+                    userRemoteConfigs: [[url: 'https://github.com/siposisp/a']]
+                )
             }
         }
-        stage("Build JAR File") {
+
+        stage("Build Backend") {
             steps {
                 dir("LAB-TBD") {
                     bat "mvn clean install"
                 }
             }
         }
+
         stage("Test Backend") {
             steps {
                 dir("LAB-TBD") {
@@ -23,23 +35,51 @@ pipeline {
                 }
             }
         }
-        stage("Build Docker Image backend") {
+
+        stage("Build Docker Image Backend") {
             steps {
                 dir("LAB-TBD") {
-                    bat "docker build -t niko085/pep2devsecops_backend ."
-                }
-            }
-        }
-        stage("Push Docker Image backend") {
-            steps {
-                dir("LAB-TBD") {
-                    bat 'docker login -u niko085 -p Nicolas2519'
-                    bat 'docker push niko085/pep2devsecops_backend'
+                    bat "docker build -t ${env.DOCKER_USER}/pep2devsecops_backend ."
                 }
             }
         }
 
-        stage("Deploy Backend with Docker Compose") {
+        stage("Push Docker Image Backend") {
+            steps {
+                dir("LAB-TBD") {
+                    bat "docker login -u ${env.DOCKER_USER} -p ${env.DOCKER_PASS}"
+                    bat "docker push ${env.DOCKER_USER}/pep2devsecops_backend"
+                }
+            }
+        }
+
+        stage("Build Frontend") {
+            steps {
+                dir("Frontend") {
+                    bat "npm install"
+                    bat "npm run build"
+                }
+            }
+        }
+
+        stage("Build Docker Image Frontend") {
+            steps {
+                dir("Frontend") {
+                    bat "docker build -t ${env.DOCKER_USER}/pep2devsecops_frontend ."
+                }
+            }
+        }
+
+        stage("Push Docker Image Frontend") {
+            steps {
+                dir("Frontend") {
+                    bat "docker login -u ${env.DOCKER_USER} -p ${env.DOCKER_PASS}"
+                    bat "docker push ${env.DOCKER_USER}/pep2devsecops_frontend"
+                }
+            }
+        }
+
+        stage("Deploy Backend") {
             steps {
                 dir("LAB-TBD") {
                     bat "docker-compose down || exit 0"
@@ -47,51 +87,20 @@ pipeline {
                 }
             }
         }
-        }
-            stage("Build Frontend"){
-                steps{
-                    dir("Frontend"){
-                        bat "npm install"
-                        bat "npm run build"
-                    }
+
+        stage("Deploy Frontend") {
+            steps {
+                dir("Frontend") {
+                    bat "docker-compose down || exit 0"
+                    bat "docker-compose up -d --build"
                 }
-            }
-            stage("Build Docker Image frontend") {
-                steps {
-                    dir("Frontend") {
-                        bat "docker build -t niko085/pep2devsecops_frontend ."
-                    }
-                }
-            }
-            stage("Push Docker Image frontend") {
-                steps {
-                    dir("Frontend") {
-                        bat "docker login -u niko085 -p Nicolas2519"
-                        bat "docker push niko085/pep2devsecops_frontend"
-                    }
-                }
-            }
-            stage("Deploy Backend with Docker Compose") {
-                steps {
-                    dir("LAB-TBD") {
-                        bat "docker-compose down || exit 0"
-                        bat "docker-compose up -d --build"
-                    }
-                }
-            }
-            stage("Deploy Frontend with Docker Compose") {
-                steps {
-                    dir("Frontend") {
-                        bat "docker-compose down || exit 0"
-                        bat "docker-compose up -d --build"
-                    }
-                }
-            }
-        
-        post {
-            always {
-                bat "docker logout"
-    
             }
         }
     }
+
+    post {
+        always {
+            bat "docker logout"
+        }
+    }
+}
