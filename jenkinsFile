@@ -26,7 +26,7 @@ pipeline {
         stage("Build Docker Image backend") {
             steps {
                 dir("LAB-TBD") {
-                    bat "docker build -t niko085/pep1devsecops_backend ."
+                    bat "docker build -t niko085/pep2devsecops_backend ."
                 }
             }
         }
@@ -34,7 +34,7 @@ pipeline {
             steps {
                 dir("LAB-TBD") {
                     bat 'docker login -u niko085 -p Nicolas2519'
-                    bat 'docker push niko085/pep1devsecops_backend'
+                    bat 'docker push niko085/pep2devsecops_backend'
                 }
             }
         }
