@@ -13,8 +13,8 @@ services:
       - "5432:5432"
 
   app:
-    container_name: pep1devsecops_backend
-    image: niko085/pep1devsecops_backend
+    container_name: pep2devsecops_backend
+    image: niko085/pep2devsecops_backend
     ports:
       - "8090:8090"
     environment:
