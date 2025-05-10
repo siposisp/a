@@ -11,28 +11,28 @@ pipeline {
         }
         stage("Build JAR File") {
             steps {
-                dir("pep1devsecops") {
+                dir("LAB-TBD") {
                     bat "mvn clean install"
                 }
             }
         }
         stage("Test Backend") {
             steps {
-                dir("pep1devsecops") {
+                dir("LAB-TBD") {
                     bat "mvn test"
                 }
             }
         }
         stage("Build Docker Image backend") {
             steps {
-                dir("pep1devsecops") {
+                dir("LAB-TBD") {
                     bat "docker build -t niko085/pep1devsecops_backend ."
                 }
             }
         }
         stage("Push Docker Image backend") {
             steps {
-                dir("pep1devsecops") {
+                dir("LAB-TBD") {
                     bat 'docker login -u niko085 -p Nicolas2519'
                     bat 'docker push niko085/pep1devsecops_backend'
                 }
@@ -41,7 +41,7 @@ pipeline {
 
         stage("Deploy Backend with Docker Compose") {
             steps {
-                dir("pep1devsecops") {
+                dir("LAB-TBD") {
                     bat "docker-compose down || exit 0"
                     bat "docker-compose up -d --build"
                 }
