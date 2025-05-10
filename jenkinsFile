@@ -50,7 +50,7 @@ pipeline {
     }
         stage("Build Frontend"){
             steps{
-                dir("front-devsecops"){
+                dir("Frontend"){
                     bat "npm install"
                     bat "npm run build"
                 }
