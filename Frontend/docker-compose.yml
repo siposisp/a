@@ -5,5 +5,5 @@ services:
     image: niko085/pep2devsecops_frontend2
     container_name: pep2devsecops_frontend2
     ports:
-      - "3000:80"
+      - "3001:80"
     restart: always
