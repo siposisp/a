@@ -6,7 +6,7 @@ services:
     restart: always
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./initdb:/docker-entrypoint-initdb.d  # <--- esto carga los scripts
+      - ./initdb:/docker-entrypoint-initdb.d  # <--- aquí montas tu SQL
     environment:
       POSTGRES_PASSWORD: 12345678
       POSTGRES_DB: LabTBD-2-2024
