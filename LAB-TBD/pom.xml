@@ -165,7 +165,6 @@
           </execution>
         </executions>
       </plugin>
-      <!--
       <plugin>
         <groupId>com.github.spotbugs</groupId>
         <artifactId>spotbugs-maven-plugin</artifactId>
@@ -187,7 +186,6 @@
           <includeTests>false</includeTests>
         </configuration>
       </plugin>
-        -->
     </plugins>
   </build>
 
