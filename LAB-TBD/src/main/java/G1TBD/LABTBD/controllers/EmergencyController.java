@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/emergencies")
-@CrossOrigin(origins = "http://localhost:8097/emergencies")
+@CrossOrigin(origins = "http://localhost:8090/emergencies")
 public class EmergencyController {
 
     private final PointService pointService;
@@ -88,8 +88,10 @@ public class EmergencyController {
 
 
     //---------------------------READ---------------------------
+    
     @GetMapping("/all")
     public List<EmergencyEntity> getAll(){return emergencyService.getAll();}
+     
 
     @GetMapping("/active")
     public List<EmergencyEntity> getAllActive(){return  emergencyService.getAllActive();}
