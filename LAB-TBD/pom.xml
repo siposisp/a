@@ -145,47 +145,6 @@
           <useModulePath>false</useModulePath>
         </configuration>
       </plugin>
-      <plugin>
-        <groupId>org.jacoco</groupId>
-        <artifactId>jacoco-maven-plugin</artifactId>
-        <version>0.8.8</version>
-        <executions>
-          <execution>
-            <id>prepare-agent</id>
-            <goals>
-              <goal>prepare-agent</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>report</id>
-            <phase>verify</phase>
-            <goals>
-              <goal>report</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>com.github.spotbugs</groupId>
-        <artifactId>spotbugs-maven-plugin</artifactId>
-        <version>4.7.3.0</version>
-        <executions>
-          <execution>
-            <phase>verify</phase> 
-            <goals>
-              <goal>spotbugs</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <effort>Max</effort>
-          <threshold>Low</threshold>
-          <xmlOutput>true</xmlOutput>
-          <outputDirectory>${project.build.directory}</outputDirectory>
-          <failOnError>false</failOnError>
-          <includeTests>false</includeTests>
-        </configuration>
-      </plugin>
     </plugins>
   </build>
 
