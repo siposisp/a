@@ -7,7 +7,8 @@ const props = defineProps({
 </script>
 
 <template>
-  <div :class="cn('flex items-center gap-y-1 p-6 pt-0', props.class)">
+  <div :class="cn('flex items-center gap-y-1 p-6 pt-0', props.class)"
+  style="padding:10px">
     <slot />
   </div>
 </template>
