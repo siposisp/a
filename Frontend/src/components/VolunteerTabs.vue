@@ -13,7 +13,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
                     </RouterLink>
                 </TabsTrigger>
                 <TabsTrigger value="finalizadas">
-                    <RouterLink to="/emergencias-finalizadas">
+                    <RouterLink to="/emergencias-finalizadaaas">
                         Emergencias Finalizadas
                     </RouterLink>
                 </TabsTrigger>
