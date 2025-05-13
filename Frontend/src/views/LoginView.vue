@@ -5,7 +5,7 @@
             <h2 class=" text-lg font-bold text-teal-600">¡Es un buen día para ayudar!</h2>
         </div>
         <div class="w-full p-8 bg-gray-50 border rounded-xl shadow-md">
-            <h2 class="mb-8 text-center">Por favor, ingresa tus datos</h2>
+            <h2 class="mb-8 text-center">Por favor, ingrese sus datos</h2>
             <form class="space-y-5">
                 <div class="flex flex-col gap-2">
                     <label for="rut" class="text-sm">RUT</label>
