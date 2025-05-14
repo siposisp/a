@@ -27,6 +27,7 @@
       **/G1TBD/LABTBD/controllers/*,
       **/G1TBD/LABTBD/entities/*,
       **/G1TBD/LABTBD/repositories/*
+      **/G1TBD/LABTBD/data/point/PointEntity.java
     </sonar.exclusions>
   </properties>
 
