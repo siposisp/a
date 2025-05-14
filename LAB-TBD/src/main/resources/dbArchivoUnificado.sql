@@ -670,3 +670,17 @@ UPDATE Emergencies SET location = 26 WHERE emergency_id = 2;
 UPDATE Emergencies SET location = 14 WHERE emergency_id = 3;
 UPDATE Emergencies SET location = 28 WHERE emergency_id = 4;
 UPDATE Emergencies SET location = 29 WHERE emergency_id = 5;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
