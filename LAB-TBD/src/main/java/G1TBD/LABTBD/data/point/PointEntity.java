@@ -12,7 +12,7 @@ import org.locationtech.jts.geom.Point;
 
 import java.io.Serializable;
 
-@Data
+@Data //NOSONAR
 @Entity
 @Table(name = "points")
 @NoArgsConstructor
